@@ -7,9 +7,18 @@ import (
 
 var NewUserClient userservice.Client
 
-func InitUserClient() error {
+func InitUserLoginClient() error {
 	var err error
-	NewUserClient, err = userservice.NewClient("user_login", client.WithHostPorts("0.0.0.0:8889"))
+	NewUserClient, err = userservice.NewClient("userservice", client.WithHostPorts("0.0.0.0:8889"))
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func InitUserRegisterClient() error {
+	var err error
+	NewUserClient, err = userservice.NewClient("user_register", client.WithHostPorts("0.0.0.0:8890"))
 	if err != nil {
 		return err
 	}

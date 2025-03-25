@@ -13,48 +13,23 @@ func InternalError(err error) Status { //服务器错误
 }
 
 var (
-	Ok = Status{ //正常
+	Ok = Status{ //正常,和服务端统一
 		Code:    "10000",
-		Message: "success",
-	}
-
-	WrongName = Status{ //用户名错误
-		Code:    "40001",
-		Message: "wrong username",
-	}
-
-	WrongPwd = Status{ //密码错误
-		Code:    "40002",
-		Message: "wrong password",
-	}
-
-	InvalidName = Status{ //用户名无效
-		Code:    "40003",
-		Message: "the username already exists",
-	}
-
-	MissingParam = Status{ //缺少参数
-		Code:    "40004",
-		Message: "missing param",
+		Message: "ok",
 	}
 
 	WrongParamType = Status{ //参数错误
-		Code:    "40005",
+		Code:    "41001", //此处错误码若是41xxx，则是客户端的错误码；若是40xxx，则是服务端的错误码
 		Message: "wrong param type",
 	}
 
 	ParamTooLong = Status{ //参数过长
-		Code:    "40006",
+		Code:    "41002",
 		Message: "param too long",
 	}
 
-	WrongUsernameOrPwd = Status{ //用户名或密码错误
-		Code:    "40007",
-		Message: "wrong username or password",
-	}
-
-	WrongGender = Status{ //性别错误
-		Code:    "40008",
-		Message: "wrong gender",
+	RpcServerConnectTimeOut = Status{ //rpc服务端连接超时
+		Code:    "41003",
+		Message: "rpc server connect time out",
 	}
 )
