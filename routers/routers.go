@@ -9,10 +9,13 @@ func RegisterRouters() {
 	h := server.Default()
 
 	userGroup := h.Group("/user")
+	linkGroup := h.Group("/link")
 
 	userGroup.GET("/login", api.UserLogin)
 	userGroup.POST("/register", api.UserRegister)
 	userGroup.GET("/refresh_token", api.RefreshToken)
+
+	linkGroup.POST("/generate", api.GenerateLink)
 
 	h.Spin()
 }

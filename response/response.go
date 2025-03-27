@@ -19,17 +19,21 @@ var (
 	}
 
 	WrongParamType = Status{ //参数错误
-		Code:    "41001", //此处错误码若是41xxx，则是客户端的错误码；若是40xxx，则是服务端的错误码
+		Code:    "90001", //此处错误码若是90xxx，则是客户端的错误码；若是4xxxx，则是服务端的错误码
 		Message: "wrong param type",
 	}
 
 	ParamTooLong = Status{ //参数过长
-		Code:    "41002",
+		Code:    "90002",
 		Message: "param too long",
 	}
 
 	RpcServerConnectTimeOut = Status{ //rpc服务端连接超时
-		Code:    "41003",
+		Code:    "90003",
 		Message: "rpc server connect time out",
+	}
+	MissingParam = Status{ //缺少参数
+		Code:    "90004",
+		Message: "missing param",
 	}
 )

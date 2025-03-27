@@ -88,9 +88,9 @@ func RefreshToken(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 	//2.调用服务端接口
-	/*	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5) //设置超时时间
-		defer cancel()*/
-	resp, err := init_client.NewUserClient.TokenRefresh(context.Background(), &refreshTokenRequest)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5) //设置超时时间
+	defer cancel()
+	resp, err := init_client.NewUserClient.TokenRefresh(ctx, &refreshTokenRequest)
 	if err != nil {
 		if errors.Is(err, context.DeadlineExceeded) {
 			c.JSON(consts.StatusInternalServerError, response.RpcServerConnectTimeOut)
