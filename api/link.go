@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"link_shorten_client_and_port/init_client"
@@ -54,4 +55,41 @@ func GenerateLink(ctx context.Context, c *app.RequestContext) {
 	}
 	// 4.返回短链接
 	c.JSON(consts.StatusOK, resp)
+}
+
+func LinkRedirect(ctx context.Context, c *app.RequestContext) {
+	//1.获取用户路由中的短链
+	shortLink := c.Param("id")
+	fmt.Println(shortLink)
+	//2.调用服务端接口，获取实际链接
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5) //设置超时时间
+	defer cancel()
+	resp, err := init_client.NewLinkClient.LinkRedirect(ctx, &link.LinkRedirectRequest{ShortUrl: shortLink})
+	if err != nil {
+		if errors.Is(err, context.DeadlineExceeded) {
+			c.JSON(consts.StatusInternalServerError, response.RpcServerConnectTimeOut)
+			return
+		} else {
+			c.JSON(consts.StatusInternalServerError, response.InternalError(err))
+			return
+		}
+	}
+	if resp != nil {
+		if resp.Status.Code == "500" {
+			c.JSON(consts.StatusInternalServerError, resp.Status)
+			return
+		} else if resp.Status.Code != "10000" { //如果是参数错误
+			c.JSON(consts.StatusBadRequest, resp.Status)
+			return
+		}
+	}
+	//3.若正常，将用户重定向至目标链接；若不正常，则返回错误
+	if resp != nil {
+		if *resp.LongUrl == "" {
+			c.JSON(consts.StatusBadRequest, resp.Status)
+			return
+		}
+		c.Redirect(consts.StatusFound, []byte(*resp.LongUrl))
+		return
+	}
 }

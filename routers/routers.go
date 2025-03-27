@@ -10,6 +10,7 @@ func RegisterRouters() {
 
 	userGroup := h.Group("/user")
 	linkGroup := h.Group("/link")
+	h.GET("/:id", api.LinkRedirect)
 
 	userGroup.GET("/login", api.UserLogin)
 	userGroup.POST("/register", api.UserRegister)
