@@ -3,13 +3,11 @@
 
 # 2.使用的技术栈
 
-1. go
-2. gorm
-3. redis
-4. kitex
-5. mysql
-6. jwt
-7. bcrypt
+本客户端使用了如下技术栈：
+
+1. `go`
+2. `kitex`
+3. `hertz`
 
 # 3.接口文档
 

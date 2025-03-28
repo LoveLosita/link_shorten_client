@@ -3,7 +3,6 @@ package api
 import (
 	"context"
 	"errors"
-	"fmt"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"link_shorten_client_and_port/init_client"
@@ -60,7 +59,6 @@ func GenerateLink(ctx context.Context, c *app.RequestContext) {
 func LinkRedirect(ctx context.Context, c *app.RequestContext) {
 	//1.获取用户路由中的短链
 	shortLink := c.Param("id")
-	fmt.Println(shortLink)
 	//2.调用服务端接口，获取实际链接
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5) //设置超时时间
 	defer cancel()
